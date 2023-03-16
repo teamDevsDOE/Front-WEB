@@ -32,29 +32,19 @@ function Row(props) {
     console.log(row)
     const dados = row.description[0];
 
-
+    
     async function handleClick() {
         try {
-            let testesit = row.description[0].situation;
-            console.log(testesit)
-            let situation;
-            
-            if (testesit === 1) {
-              situation = 2;
-            } else if (testesit === 2) {
-              situation = 3;
-            } else if (testesit === 4) {
-              situation = 4;
-            }
-            
+            const resultSituation = row.situation;
+            // console.log(row.pop())
             let response = await api.post('schedules/insertsituation', {
-              situation: situation,
+              situation: resultSituation === 1 ? 2 : resultSituation === 2 ? 3 : 4 ,
               id_user: dados.cpf,
               id_date: dados.id_date
             });
             
             console.log(response)
-            // Aqui você pode tratar a resposta da chamada de API, se necessário
+            // // Aqui você pode tratar a resposta da chamada de API, se necessário
         } catch (error) {
             console.log(error)
             // Aqui você pode tratar o erro, se necessário
