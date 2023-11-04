@@ -1,81 +1,125 @@
-import styled from "styled-components";
 
-export const  Container = styled.div`
 
-background: red;
-
-`
-export const Titulo = styled.h1`
+import styled, { css } from 'styled-components';
 
 
 
-height: 94px;
-padding-left: 176px;
-padding-top: 30px;
-font-family: 'Quicksand';
-font-style: normal;
-font-weight: 600;
-font-size: 36px;
-line-height: 45px;
+// const RequiredField = css`
+//   border: 1px solid red;
+// `;
 
-color: #00092C;
-
-
-`
-export const ContainerItens = styled.div`
-
-position: absolute;
-width: 759px;
-height: 526px;
-left: 401px;
-top: 150px;
-
-background: rgba(255, 255, 255, 0.74);
-box-shadow: 15px 15px 15px 2px rgba(175, 175, 175, 0.19);
-border-radius: 38px;
+// const RequiredInput = styled(Input)`
+//   ${props => props.isRequired && RequiredField}
+// `;
 
 
 
+export const Container = styled.div`
 
-`
-export const Error = styled.p`
-
-
-
-
-margin-left: 260px;
-font-family: 'Poppins';
-font-style: normal;
-font-weight: 400;
-font-size: 14px;
-line-height: 21px;
-
-color: #CC1717;
-
-
-
-`
-export const Input = styled.input`
-
-display: flex;
-width: 220px;
-height: 30px;
-margin-top: 50px;
 flex-direction: column;
-margin-left: 260px;
-background: #F2F2F7;
-border-radius: 4px;
-border:${props=>(props.error?'2px solid #CC1717':'none')};
-
+padding: 20px;
+position: relative;
+width: 1012px;
+height: 582px;
+margin-left: 20px;
+margin-top: 70px;
 
 
 `
-export const Button = styled.button`
 
-width: 220px;
-height: 35px;
+
+export const Content = styled.div`
+display: flex;
+max-width: 100vw;
+min-height: 100vh;
+
+`
+
+export const Input = styled.input`
+position: absolute;
+top: 70px;
+width: 650px;
+height: 50px;
+left: 110px;
+padding-left: 25px;
+background: rgba(0, 9, 44, 0.08);
+border-radius: 8px;
+border:${props => (props.error ? '2px solid #CC1717' : 'none')};
+
+`
+export const Endereco = styled.input`
+position: absolute;
+left: 10.51%;
+right: 32.91%;
+top: 37.78%;
+bottom: 54.07%;
+padding-left: 20px;
+background: rgba(0, 9, 44, 0.08);
+border-radius: 8px;
+border:${props => (props.error ? '2px solid #CC1717' : 'none')};
+
+`
+
+export const CNPJ = styled.input`
+position: absolute;
+top: 330px;
+left: 110px;
+width: 300px;
+height: 50px;
+padding-left: 20px;
+background: rgba(0, 9, 44, 0.08);
+border-radius: 8px;
+border:${props => (props.error ? '2px solid #CC1717' : 'none')};
+
+`
+export const Valor = styled.input`
+position: absolute;
+top: 330px;
+left: 450px;
+width: 300px;
+height: 50px;
+padding-left: 20px;
+padding-left: 20px;
+
+background: rgba(0, 9, 44, 0.08);
+border-radius: 8px;
+border:${props => (props.error ? '2px solid #CC1717' : 'none')};
+
+`
+export const Palavra = styled.input`
+position: absolute;
+top: 390px;
+left: 110px;
+width: 300px;
+height: 50px;
+padding-left: 20px;
+
+background: rgba(0, 9, 44, 0.08);
+border-radius: 8px;
+border:${props => (props.error ? '2px solid #CC1717' : 'none')};
+
+`
+export const Data = styled.input`
+position: absolute;
+top: 390px;
+left: 450px;
+width: 300px;
+height: 50px;
+padding-left: 20px;
+padding-left: 20px;
+padding-right: 20px;
+background: rgba(0, 9, 44, 0.08);
+border-radius: 8px;
+border:${props => (props.error ? '2px solid #CC1717' : 'none')};
+
+`
+export const Botao = styled.button`
+position: absolute;
+width: 257px;
+height: 41px;
+
 margin-left: 260px;
-margin-top: 40px;
+margin-top: 450px;
 background: rgba(0, 9, 44, 0.94);
 border-radius: 5px;
 cursor:pointer;
@@ -89,11 +133,74 @@ color: white;
     opacity:0.6
 }
 
+
 `
-export const ContainerFundo = styled.div`
+export const Link = styled.link`
+position: absolute;
 
+`
+export const Rua = styled.input`
+position: absolute;
+top: 130px;
+width: 490px;
+height: 50px;
+left: 110px;
+padding-left: 25px;
+border: none;
+background: rgba(0, 9, 44, 0.08);
+border-radius: 8px;
 
+`
+export const Bairro = styled.input`
+position: absolute;
+top: 265px;
+padding-left: 25px;
+height: 50px;
+width: 340px;
+left: 410px;
+border-radius: 8px;
+background: rgba(0, 9, 44, 0.08);
+border: none;
 
+`
+export const Numero = styled.input`
+position: absolute;
+top: 130px;
+left: 610px;
+height: 50px;
+width: 150px;
+border: none;
+padding-left: 25px;
 
+background: rgba(0, 9, 44, 0.08);
+border-radius: 8px;
+
+`
+export const Cep = styled.input`
+position: absolute;
+top: 265px;
+padding-left: 25px;
+height: 50px;
+width: 259px;
+left: 110px;
+
+border-radius: 8px;
+
+background:  rgba(0, 9, 44, 0.08);
+border: none;
+border-radius: 8px;
+
+`
+export const Ponto = styled.input`
+position: absolute;
+top: 200px;
+height: 50px;
+width: 645px;
+left: 110px;
+padding-left: 25px;
+background:  rgba(0, 9, 44, 0.08);
+border-radius: 8px;
+border: none;
+border-radius: 8px;
 
 `

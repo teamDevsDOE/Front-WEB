@@ -1,0 +1,51 @@
+
+// function Login() {
+//     const { putUserData } = useUser();
+//     const history = useHistory();
+
+//     const schema = Yup.object().shape({
+//       cnpj: Yup.string()
+//         .required('O campo CNPJ é obrigatório'),
+//       pass: Yup.string()
+//         .min(3, 'A senha deve conter pelo menos 3 caracteres')
+//         .required('A senha é obrigatóriaria'),
+//     });
+
+//     const { register, handleSubmit, formState: { errors } } = useForm({
+//       resolver: yupResolver(schema)
+//     });
+
+//     const onSubmit = async (clientData) => {
+//         try {
+//           const response = await api.post('/hemocentro/login', {
+//             cnpj: clientData.cnpj,
+//             pass: clientData.pass
+//           });
+
+//           console.log(response.data);
+//           const { cnpj } = response.data;
+//           putUserData(response.data);
+//           history.push("/ScheduleList?cnpj=" + cnpj);
+//         } catch (error) {
+//           console.error(error);
+//           toast.error("Verifique seus dados! Tente novamente.");
+//         }
+//       };
+
+
+//     return (
+//       <ContainerFundo>
+//         <ContainerAnimado></ContainerAnimado>
+//         <ContainerItens>
+//           <Titulo>Entrar no Hemocentro </Titulo>
+//           <form noValidate onSubmit={handleSubmit(onSubmit)}>
+//             <Input type="text" {...register("cnpj")} placeholder='Cnpj' error={errors.cnpj?.message} />
+//             <Error>{errors.cnpj?.message}</Error>
+//             <Input type="password" {...register("pass")} placeholder='Senha' error={errors.pass?.message} />
+//             <Error>{errors.pass?.message}</Error>
+//             <Button type='submit'>Entrar</Button>
+//           </form>
+//         </ContainerItens>
+//       </ContainerFundo>
+//     );
+//   }

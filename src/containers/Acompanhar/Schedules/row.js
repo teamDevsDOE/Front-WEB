@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from "react";
+import LoadingButton from '@mui/lab/LoadingButton';
+import SaveIcon from '@mui/icons-material/Save';
+import Stack from '@mui/material/Stack';
 
 import {
     Button
@@ -20,41 +23,85 @@ import api from '../../../services/api'
 import Select from 'react-select'
 import ReactSelect from "react-select";
 import status from './scheduleStatus'
-import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 import { useUser } from '../../../hooks/UserContext'
-import { toast } from 'react-toastify';
+
+import situation from '../Schedules/scheduleStatus'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+// import { toast } from 'react-toastify';
 
 
 function Row(props) {
     const { row } = props;
     const [open, setOpen] = React.useState(false);
+    const [exibirBotao, setExibirBotao] = useState(true);
+    //finalizar
+    const [loading, setLoading] = useState(false);
     //variavel para pegar o cpf
-    console.log(row)
+    // console.log(row)
     const dados = row.description[0];
 
-    
+
     async function handleClick() {
         try {
             const resultSituation = row.situation;
             // console.log(row.pop())
             let response = await api.post('schedules/insertsituation', {
-              situation: resultSituation === 1 ? 2 : resultSituation === 2 ? 3 : 4 ,
-              id_user: dados.cpf,
-              id_date: dados.id_date
-            });
-            
+                situation: resultSituation === 1 ? 2 : resultSituation === 2 ? 3 : 4,
+                id_user: dados.cpf,
+                id_date: dados.id_date
+            })
+                .then(response => props.setAtualizar(!props.atualizar));
+
             console.log(response)
+            toast.success('O voluntário foi aceito com sucesso!');
+            setExibirBotao(false);
             // // Aqui você pode tratar a resposta da chamada de API, se necessário
         } catch (error) {
             console.log(error)
             // Aqui você pode tratar o erro, se necessário
         }
     }
+    
 
 
-    async function hankdleCancela() {
-        console.log("to aqui")
+    async function handleCancelar(situation) {
+        if (situation === 5) {
+            let resposta = await api.post('schedules/setcancel', {
+                id_user: dados.cpf,
+                id_hemo: dados.id_hemo,
+                id_date: dados.id_date
+            })
+                .then(response => props.setAtualizar(!props.atualizar));
+
+            console.log(resposta);
+            setExibirBotao(false);
+            toast.success('Cancelamento realizado com sucesso!');
+
+        }
     }
+
+    async function handleClickFinalizar() {
+
+        setLoading(true);
+        
+        try {
+            await api.post(`/schedules/finished/${dados.id_date}`, {
+                finished: 1,
+                id_user: dados.cpf// id do usuário/paciente que está sendo finalizado
+              });
+          
+          toast.success('Solicitação finalizada com sucesso!');
+        } catch (error) {
+          console.log(error);
+          toast.error('Erro ao finalizar a solicitação.');
+        }
+        setLoading(false);
+      
+    }
+
 
     return (
         <React.Fragment>
@@ -68,16 +115,32 @@ function Row(props) {
                         {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                     </IconButton>
                 </TableCell>
-                <TableCell>{row.cpf}</TableCell>
+                <TableCell>{row.name}</TableCell>
                 <TableCell>{row.data_agendamento}</TableCell>
                 <TableCell>{row.situation}</TableCell>
                 <TableCell>
-                    <Button onChange={newSituation => {
-                        setNewSituation(row.cpf, newSituation.value)
-                    }} >Teste</Button>
-                    <Button onClick={() => handleClick()}>Aceitar</Button>
+                    {row.situation != 0 && (
+                        row.situation == 4 ? (
+                            <>
+                            <Button onClick={handleClickFinalizar} disabled={loading}>Finalizar</Button>
+                            <ToastContainer />
+                          </>
+                                
 
-                    <Button onClick={hankdleCancela}>Cancelar</Button>
+                            
+                        ) : (
+                            <>
+                                <ToastContainer />
+                                {exibirBotao && <Button onClick={handleClick}>Aceitar</Button>}
+                            </>
+                        )
+                    )}
+
+                    <>
+                        <ToastContainer /> {/* componente que irá conter as mensagens de toast */}
+                        {exibirBotao && <Button onClick={() => handleCancelar(5)}>Cancelar</Button>}
+                        {!exibirBotao}
+                    </>
 
                 </TableCell>
 

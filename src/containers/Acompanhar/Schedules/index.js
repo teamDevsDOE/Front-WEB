@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import api from '../../../services/api'
-import { Container, Menu, LinkMenu } from "../Schedules/styles";
+import { Container, Menu, LinkMenu, Content } from "../Schedules/styles";
 import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
@@ -17,30 +17,21 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import Row from "./row";
 
-// import {Menu} from '../../../components/Menu'
+import { BarraMenu } from '../../../components/BarraMenu'
 import situation from '../Schedules/scheduleStatus'
 
 function Schedules() {
 
-    //guarda os voluntarios
-    const [filtrasituation, setSituation] = useState([]);
-    const [activeSituation, setActiveSituation] = useState([1
-    ]);
     const [rows, setRows] = useState([])
-    
-//para buscar pacientes para filtrar
-    useEffect(() => {
-        async function fetchData() {
-            const response = await api.get('schedules/getScheduleHemo');
-            setSituation(response.data);
-          
-        }
-        fetchData();
-    }, []);
+    //variavel auxiliar que vai guardar  situações filtrados
+    const [filteredSit, setfilteredSit] = useState([])
+    const [isNull, setIsNull] = useState(false)
+    const [activeSituation, setfActiveSituation] = useState([1])
+    const [atualizar, setAtualizar] = useState(false)
 
-//função para listar tabela 
+    //função para listar tabela 
     async function fetchData() {
-        const { data } = await api.get('schedules/getScheduleHemo');
+        const { data } = await api.get('schedules/getScheduleHemo')
         const newArrayDataSituation = data.schedules.map(schedulin => {
             return {
                 name: schedulin.name,
@@ -60,64 +51,70 @@ function Schedules() {
             }
         })
         setRows(newArrayDataSituation)
+        setfilteredSit(newArrayDataSituation)
     }
-
     useEffect(() => {
         fetchData()
-    }, [])
+        // setAtualizar(false)
+    }, [atualizar])
 
-//função dos  botões de listagem  de cadda situação (tentativa)
-    async function handleSituation(situation) {
-
-        const response = await api.get('schedules/getScheduleHemo');
-        setSituation(response.data);
-        if (situation.id === 2) {
-            //todos os pacientes
-            setSituation(response.data)
-
+    // função quando clicar no link:
+    function hadleSituation(situation) {
+        if (situation.label == 'Todos') {
+            setfilteredSit(rows)
+            setIsNull(false)
         } else {
-            const { data } = await api.get('schedules/getScheduleHemo');
-            const newArrayDataSituation = data.schedules.filter(schedule => schedule === situation.value)
-            setRows(newArrayDataSituation)
+            let newSituation = rows.filter(row => row.situation == situation.id)
+            if (situation.id == 2) {
+                newSituation = rows.filter(row => row.situation == situation.id || row.situation == 1)
+            }
+
+            if (newSituation.length == 0) {
+                setIsNull(true)
+            } else {
+                setIsNull(false)
+            }
+            setfilteredSit(newSituation)
         }
-        setActiveSituation(situation.id)
+        setfActiveSituation(situation.id)
     }
 
+    console.log(filteredSit)
     return (
+        <Content>
+            <BarraMenu />
+            <Container>
+                <Menu>
+                    {situation && situation.map(situation => (
+                        <LinkMenu key={situation.id}
+                            onClick={() => hadleSituation(situation)}isActivesituation={activeSituation===situation.id}>
+                            {situation.label}
+                        </LinkMenu>
+                    ))}
+                </Menu>
+                <TableContainer component={Paper}>
+                    <Table aria-label="collapsible table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell />
+                                <TableCell>Nome </TableCell>
+                                <TableCell >Data da solicitação</TableCell>
+                                <TableCell >Situação</TableCell>
+                                <TableCell >Alterar Situação</TableCell>
 
-        <Container>
-            <Menu>
-                {situation && situation.map(situation => (
-                    <LinkMenu
-                        key={situation.id}
-                        onClick={() => handleSituation(situation)}
-                        isActivesituation={activeSituation === situation.id}
-                    >
-                        {situation.label}
-                    </LinkMenu>
-                ))}
-            </Menu>
-            <TableContainer component={Paper}>
-                <Table aria-label="collapsible table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell />
-                            <TableCell>Nome </TableCell>
-                            <TableCell >Data da solicitação</TableCell>
-                            <TableCell >Status</TableCell>
-                            <TableCell >Alterar Situação</TableCell>
-
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {rows.map((row) => (
-                            <Row key={row.name} row={row} />
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-        </Container>
-
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {!isNull ? (
+                                (filteredSit.length > 0 ? filteredSit : rows).map((row) => (
+                                    <Row key={row.name} row={row} atualizar={atualizar} setAtualizar={setAtualizar}  />
+                                ))
+                            ) : ('')}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </Container>
+        </Content>
     )
 }
 

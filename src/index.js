@@ -1,14 +1,13 @@
-import React from "react";
 import ReactDOM from "react-dom";
+import React from "react";
 import Routes from "./routes/routes";
 import GlobalStyles from "./styles/globalStyles";
-
 import { ToastContainer } from 'react-toastify';
 import { UserProvider } from "./hooks/UserContext";
 
+const rootElement = document.getElementById('root');
 
 ReactDOM.render(
-
   <>
     <UserProvider>
       <Routes />
@@ -16,9 +15,5 @@ ReactDOM.render(
     <GlobalStyles autoClose={2000} />
     <ToastContainer />
   </>,
-
-
-  document.getElementById('root')
-
-
-)
+  rootElement
+);

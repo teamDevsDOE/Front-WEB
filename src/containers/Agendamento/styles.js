@@ -1,5 +1,10 @@
 import styled from "styled-components";
 
+export const Content = styled.div`
+display: flex;
+max-width: 100vw;
+min-height: 100vh;
+`
 export const  Container = styled.div`
 
 background: red;
@@ -90,10 +95,131 @@ color: white;
 }
 
 `
-export const ContainerFundo = styled.div`
+export const ContainerAgend = styled.div`
+position: absolute;
+width: 476;
+height: 449px;
+left: 554px;
+top: 109px;
 
 
 
+border-radius: 35px;
+
+background: rgba(255, 255, 255, 0.74);
+box-shadow: 13px 5px 15px 15px rgba(175, 175, 175, 0.19);
+border-radius: 38px;
+
+
+
+
+
+`
+export const ItemContainer = styled.div`
+
+
+
+
+`
+export const Title = styled.p`
+
+height: 94px;
+padding-bottom: 145px;
+position: relative;
+font-family: 'Quicksand';
+font-style: normal;
+font-weight: 600;
+font-size: 30px;
+line-height: 45px;
+margin-bottom: 90px;
+top: -88px;
+
+`
+
+export const Entradaone = styled.input`
+
+position: absolute;
+
+width: 248px;
+height: 40px;
+left: 51px;
+top: 88px;
+padding-left: 12px;
+padding-right: 12px;
+
+
+
+background: rgba(0, 9, 44, 0.08);
+border-radius: 8px;
+
+
+`
+export const Entradatwo = styled.input`
+
+  
+position: absolute;
+width: 248px;
+height: 40px;
+left: 51px;
+top: 198px;
+padding-left: 12px;
+padding-right: 12px;
+
+background: rgba(0, 9, 44, 0.08);
+border-radius: 8px;
+
+
+
+
+`
+export const Entradasr = styled.input`
+
+
+position: absolute;
+left: 27.51%;
+right: 40.15%;
+top: 64.36%;
+bottom: 27.49%;
+
+background: rgba(0, 9, 44, 0.08);
+border-radius: 8px;
+border:${props=>(props.error?'2px solid #CC1717':'none')};
+
+
+
+`
+export const Botao = styled.button`
+position: absolute;
+width: 187px;
+height: 51px;
+left:78px;
+top: 320px;
+cursor: pointer;
+
+background: #00092C;
+border-radius: 15px;
+
+color: white;
+
+&:hover{
+    opacity: 0.8;
+}
+&:active{
+    opacity:0.6
+}
+
+
+`
+export const Entradas =styled.input`
+
+position: absolute;
+left: 61.9%;
+right: 11.18%;
+top: 64.36%;
+bottom: 27.49%;
+
+background: rgba(0, 9, 44, 0.08);
+border-radius: 8px;
 
 
 `

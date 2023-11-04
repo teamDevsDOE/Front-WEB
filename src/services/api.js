@@ -8,12 +8,12 @@ const apiHemo = axios.create({
     
 })
 
-// apiHemo.interceptors.request.use(async config => {
-//     const userData = await localStorage.getItem('hemocentro:userData')
-//     const token  = userData && JSON.parse(userData).data.token
-//     config.headers.authorization = `Bearer ${token}`
-//     return config
-// })
+apiHemo.interceptors.request.use(async config => {
+    const userData = await localStorage.getItem('hemocentro:userData')
+    const token  = userData && JSON.parse(userData).data.token
+    config.headers.authorization = `Bearer ${token}`
+    return config
+})
 
 
 export default apiHemo
